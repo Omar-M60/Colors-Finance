@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+
+<form action="/index" method="GET">
+    <div class="row">
+        <div class="card border-danger mb-3" style="max-width: 18rem;">
+            <div class="card-header">Wallet</div>
+            <div class="card-body">
+                <h5 class="card-title">You have</h5>
+                <p class="card-text"> {{ balance | usd }} </p>
+            </div>
+        </div>
+        <div class="card border-warning mb-3" style="max-width: 18rem;">
+            <div class="card-header">Total Value</div>
+            <div class="card-body">
+                <h5 class="card-title warning-title">The total value of all the stocks and your balance is</h5>
+                <p class="card-text"> {{ total_holdings_value | usd }} </p>
+            </div>
+        </div>
+    </div>
+
+    {% if hasStock %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Stock's Symbol</th>
+                    <th scope="col">Stock's Name</th>
+                    <th scope="col">Shares</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Total Value of Holding</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(stocks|length) %}
+                    {% set stock = stocks[loop.index-1] %}
+                    {% set stock_name = stock_names[loop.index-1] %}
+                    {% set price = prices[loop.index-1] %}
+                    {% set holding = holdings[loop.index-1] %}
+                    <tr>
+                        <th> {{ i + 1 }} </th>
+                        <th> {{ stock.stock }} </th>
+                        <th> {{ stock_name }} </th>
+                        <th> {{ stock.total_shares }} </th>
+                        <th> {{ price | usd }} </th>
+                        <th> {{ holding | usd }} </th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+    <div class="card index-card">
+        <div class="card-header index-text index-header">No Stocks</div>
+        <div class="card-body">
+            <p class="card-text index-text">You currently don't have any stock! Consider buying some stocks! Unless you broke :]</p>
+        </div>
+    </div>
+    {% endif %}
+
+</form>
+
+{% endblock %}

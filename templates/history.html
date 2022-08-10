@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Transaction</th>
+                <th>Stock</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for transaction in transactions %}
+                {% set stock = stocks[loop.index-1] %}
+
+                    <tr>
+                        <th> {{ transaction.status }} </th>
+                        <th> {{ stock }} </th>
+                        <th> {{ transaction.shares }} </th>
+                        <th> {{ transaction.price | usd }} </th>
+                        <th> {{ transaction.date }} </th>
+                    </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}
